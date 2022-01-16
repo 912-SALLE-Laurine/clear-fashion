@@ -49,17 +49,23 @@ console.log(cheapestTShirtURL);
 // 1. Create a variable and assign it the number of products
 // 2. Log the variable
 
+let numberOfProducts = marketplace.length;
+console.log(numberOfProducts);
 
 // 🎯 TODO: Brands name
 // 1. Create a variable and assign it the list of brands name only
 // 2. Log the variable
 // 3. Log how many brands we have
 
+let listBrandName = [... new Set(marketplace.flatMap(x => x.brand))];
+console.log(listBrandName);
+console.log(listBrandName.length);
 
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
+
 
 
 // 🎯 TODO: Sort by date
