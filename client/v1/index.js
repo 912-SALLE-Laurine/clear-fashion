@@ -32,8 +32,8 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // I can find on these e-shops
 // 2. Log the variable
 
-
-
+const cheapestTShirtURL = "https://adresse.paris/t-shirts-et-polos/3983-t-shirt-ranelagh-1300000259194.html";
+console.log(cheapestTShirtURL);
 
 
 /**
