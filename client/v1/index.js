@@ -67,17 +67,29 @@ console.log(listBrandName.length);
 // 3. Log the variable
 
 function SortByPrice(marketplace) {
-    let sortedMarketplace = marketplace.sort((x, y) => x.price - y.price)
-    return sortedMarketplace;
+    let clone = [...marketplace]
+    let sortedPriceMarketplace = clone.sort((x, y) => x.price - y.price)
+    return sortedPriceMarketplace;
 }
-let sortedMarketplace = SortByPrice(marketplace);
-console.log(sortedMarketplace);
+let sortedPriceMarketplace = SortByPrice(marketplace);
+console.log(sortedPriceMarketplace);
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
 
+function SortByDate(marketplace) {
+    let clone = [...marketplace]
+    let sortedDateMarketplace = clone.sort((x, y) =>{
+        let da = new Date(x.date),
+            db = new Date(y.date);
+        return db - da;
+    })
+    return sortedDateMarketplace;
+}
+let sortedDateMarketplace = SortByDate(marketplace);
+console.log(sortedDateMarketplace);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
