@@ -313,11 +313,27 @@ console.log(ReasonablePriceShop(COTELE_PARIS))
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
 
+function FindProductUuid(productList, uuid) {
+    const object = productList.find((product) => product.uuid == uuid)
+    return object
+}
+console.log("Find a specific product")
+console.log(FindProductUuid(COTELE_PARIS, `b56c6d88-749a-5b4c-b571-e5b5c6483131`))
 
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
+
+function DeleteProductUuid(productList, uuid) {
+    var newList = productList.filter(function (product) {
+        return product.uuid != `b56c6d88-749a-5b4c-b571-e5b5c6483131`
+    })
+    return newList
+}
+const COTELE_PARIS_NEW = DeleteProductUuid(COTELE_PARIS, `b56c6d88-749a-5b4c-b571-e5b5c6483131`)
+console.log(COTELE_PARIS_NEW)
+
 
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
