@@ -49,6 +49,7 @@ console.log(cheapestTShirtURL);
 // 2. Log the variable
 
 let numberOfProducts = marketplace.length;
+console.log("Number of products:")
 console.log(numberOfProducts);
 
 // 🎯 TODO: Brands name
@@ -57,7 +58,9 @@ console.log(numberOfProducts);
 // 3. Log how many brands we have
 
 let listBrandName = [... new Set(marketplace.flatMap(x => x.brand))];
+console.log("List of brands names:")
 console.log(listBrandName);
+console.log("Number of brands:")
 console.log(listBrandName.length);
 
 // 🎯 TODO: Sort by price
@@ -71,6 +74,7 @@ function SortByPrice(marketplace) {
     return sortedPriceMarketplace;
 }
 let sortedPriceMarketplace = SortByPrice(marketplace);
+console.log("List of products sorted by price:")
 console.log(sortedPriceMarketplace);
 
 // 🎯 TODO: Sort by date
@@ -88,6 +92,7 @@ function SortByDate(marketplace) {
     return sortedDateMarketplace;
 }
 let sortedDateMarketplace = SortByDate(marketplace);
+console.log("List of products sorted by date:")
 console.log(sortedDateMarketplace);
 
 // 🎯 TODO: Filter a specific price range
@@ -97,6 +102,7 @@ console.log(sortedDateMarketplace);
 let filteredPriceMarketplace = marketplace.filter(function isRange(article) {
     return (article.price >= 50 && article.price <= 100)
 });
+console.log("Lists of products between 50 and 100€:")
 console.log(filteredPriceMarketplace);
 
 // 🎯 TODO: Average Basket
@@ -140,12 +146,14 @@ for (const name of listBrandName) {
         }
     }
 }
+console.log("Each brand with the list of products:")
 console.log(brands)
 
 const numberProductsByBrands = []
 for (const brand in brands) {
     numberProductsByBrands[brand] = brands[brand].length
 }
+console.log("Number of products by brands:")
 console.log(numberProductsByBrands) 
 
 // 🎯 TODO: Sort by price for each brand
@@ -156,6 +164,7 @@ const SortedPriceBrands = { ...brands }
 for (const brand in SortedPriceBrands) {
     SortedPriceBrands[brand].sort((x, y) => y.price - x.price)
 }
+console.log("Each brand : products sorted by price:")
 console.log(SortedPriceBrands)
 
 // 🎯 TODO: Sort by date for each brand
@@ -166,8 +175,8 @@ const SortedDateBrands = { ...brands }
 for (const brand in SortedDateBrands) {
     SortedDateBrands[brand].sort((x, y) => y.price - x.price)
 }
+console.log("Each brand : products sorted by date:")
 console.log(SortedDateBrands)
-
 
 
 /**
@@ -181,8 +190,19 @@ console.log(SortedDateBrands)
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
 
+function percentile(sortedArray, p) {
 
-
+    var index = p * sortedArray.length
+    index = Math.round(index)
+    var p90 = sortedArray[index].price
+    return p90
+}
+const p90Values = []
+for (const brand in SortedPriceBrands) {
+    p90Values[brand] = percentile(SortedPriceBrands[brand], 0.90)
+}
+console.log("p90 values for each brand:")
+console.log(p90Values)
 
 
 /**
@@ -257,15 +277,42 @@ const COTELE_PARIS = [
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
 
+function NewProductsOnly(productList) {
+    var ret = true
+    for (const product of productList) {
+        let today = new Date('2022-01-17')
+        let released = new Date(product.released);
+
+        if (today - released > 14 * 1000 * 60 * 60 * 24) {
+            ret = false
+        }
+    }
+    return ret
+}
+
+console.log("New products only?")
+console.log(NewProductsOnly(COTELE_PARIS))
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
 
+function ReasonablePriceShop(productList) {
+
+    for (const product of COTELE_PARIS) {
+        if (product.price >= 100) {
+            return false
+        }
+    }
+    return true
+}
+console.log("Is the shop reasonable?")
+console.log(ReasonablePriceShop(COTELE_PARIS))
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
+
 
 
 // 🎯 TODO: Delete a specific product
