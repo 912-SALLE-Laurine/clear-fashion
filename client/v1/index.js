@@ -344,12 +344,16 @@ let blueJacket = {
 
 // we make a copy of blueJacket to jacket
 // and set a new property `favorite` to true
-let jacket = blueJacket;
+//let jacket = blueJacket;
 
-jacket.favorite = true;
+//jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
+
+//console.log(blueJacket)
+//console.log(jacket)
+// We notice that the property favourite of jacket changed
 
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
@@ -359,9 +363,11 @@ blueJacket = {
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
+let jacket = { ...blueJacket }
+jacket.favorite = true
 
-
-
+console.log(blueJacket)
+console.log(jacket)
 
 /**
  * 🎬
