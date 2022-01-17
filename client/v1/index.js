@@ -18,7 +18,6 @@ console.table(MY_FAVORITE_BRANDS);
 console.log(MY_FAVORITE_BRANDS[0]);
 
 
-
 /**
  * 🌱
  * Let's go with a very very simple first todo
@@ -131,17 +130,43 @@ console.log(filteredPriceMarketplace);
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+const brands = {}
+
+for (const name of listBrandName) {
+    brands[name] = [];
+    for (const product of marketplace) {
+        if (product.brand == name) {
+            brands[name].push(product)
+        }
+    }
+}
+console.log(brands)
+
+const numberProductsByBrands = []
+for (const brand in brands) {
+    numberProductsByBrands[brand] = brands[brand].length
+}
+console.log(numberProductsByBrands) 
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
 
+const SortedPriceBrands = { ...brands }
+for (const brand in SortedPriceBrands) {
+    SortedPriceBrands[brand].sort((x, y) => y.price - x.price)
+}
+console.log(SortedPriceBrands)
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
 
-
+const SortedDateBrands = { ...brands }
+for (const brand in SortedDateBrands) {
+    SortedDateBrands[brand].sort((x, y) => y.price - x.price)
+}
+console.log(SortedDateBrands)
 
 
 
