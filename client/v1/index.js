@@ -110,6 +110,11 @@ console.log(filteredPriceMarketplace);
 // 2. Log the average
 
 
+// average price
+const prices = marketplace.map(x => x.price);
+const totalPrices = prices.reduce((x, y) => x + y);
+const averagePrices =  totalPrices / marketplace.length;
+console.log("Average basket : ", Math.round(averagePrices), "€");
 
 
 
@@ -332,6 +337,7 @@ function DeleteProductUuid(productList, uuid) {
     return newList
 }
 const COTELE_PARIS_NEW = DeleteProductUuid(COTELE_PARIS, `b56c6d88-749a-5b4c-b571-e5b5c6483131`)
+console.log("Delete a specific product")
 console.log(COTELE_PARIS_NEW)
 
 
@@ -363,6 +369,7 @@ blueJacket = {
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
+console.log("Create a copy")
 let jacket = { ...blueJacket }
 jacket.favorite = true
 
@@ -378,3 +385,8 @@ console.log(jacket)
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
 // 2. log the localStorage
+
+
+let localStorage = [...MY_FAVORITE_BRANDS]
+console.log("Save in localStorage")
+console.log(localStorage)
