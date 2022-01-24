@@ -4,10 +4,13 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
+let currentSize = 1;//
+
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
+const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -31,8 +34,8 @@ const fetchProducts = async (page = 1, size = 12) => {
   try {
     const response = await fetch(
       `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
-    );
-    const body = await response.json();
+    ); // Wait for getting response from the call
+    const body = await response.json(); // wait to create json data
 
     if (body.success !== true) {
       console.error(body);
@@ -111,8 +114,10 @@ const render = (products, pagination) => {
  * @type {[type]}
  */
 selectShow.addEventListener('change', event => {
+    currentSize = parseInt(event.target.value)//
+
   fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-    .then(setCurrentProducts)
+    .then(setCurrentProducts) 
     .then(() => render(currentProducts, currentPagination));
 });
 
@@ -121,3 +126,41 @@ document.addEventListener('DOMContentLoaded', () =>
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination))
 );
+
+/*
+Feature 1 - Browse pages
+
+As a user
+I want to browse available pages
+So that I can load more products
+*/
+selectPage.addEventListener('change', event => {
+    fetchProducts(parseInt(event.target.value), currentSize)
+        .then(setCurrentProducts) 
+        .then(() => render(currentProducts, currentPagination));
+});
+
+/*
+Feature 2 - Filter by brands
+
+As a user
+I want to filter by brands name
+So that I can browse product for a specific brand
+*/
+
+
+selectBrand.addEventListener('change', event => {
+
+})
+
+const brands = {}
+
+for (const name of listBrandName) {
+    brands[name] = [];
+    for (const product of marketplace) {
+        if (product.brand == name) {
+            brands[name].push(product)
+        }
+    }
+}
+

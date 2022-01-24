@@ -371,6 +371,8 @@ blueJacket = {
 
 console.log("Create a copy")
 let jacket = { ...blueJacket }
+// version du prof:
+jacket = JSON.parse(JSON.stringify(blueJacket));
 jacket.favorite = true
 
 console.log(blueJacket)
