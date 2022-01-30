@@ -15,6 +15,7 @@ const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 const selectFilterPrice = document.querySelector('#filter-price-select')
 const selectFilterDate = document.querySelector('#filter-date-select')
+const selectSort = document.querySelector('#sort-select');
 /**
  * Set global value
  * @param {Array} result - products to display
@@ -196,14 +197,13 @@ selectFilterDate.addEventListener('change', event => {
 
 function filterDate(currentProducts, selector) {
     var filteredProducts = []
-    if (selector == "No filter") {
+    if (selector == "no_filter") {
         filteredProducts = [...currentProducts]
     }
     else {
         for (var product of currentProducts) {
             let today = new Date('2022-01-30')
             let released = new Date(product.released);
-            console.log(released);
             if (today - released < 14 * 1000 * 60 * 60 * 24) {
                 filteredProducts.push(product)
             }
@@ -212,6 +212,97 @@ function filterDate(currentProducts, selector) {
 
     return filteredProducts
 }
+
+/*
+ Feature 4 - Filter by reasonable price
+
+As a user
+I want to filter by reasonable price
+So that I can buy affordable product i.e less than 50€
+*/
+
+selectFilterPrice.addEventListener('change', event => {
+    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(filterPrice(currentProducts, event.target.value), currentPagination));
+})
+
+function filterPrice(currentProducts, selector) {
+    var filteredProducts = []
+    if (selector == "no_filter") {
+        filteredProducts = [...currentProducts]
+    }
+    else {
+        for (var product of currentProducts) {
+            console.log(product.price);
+            if (product.price <= 50) {
+                filteredProducts.push(product)
+            }
+        }
+    }
+
+    return filteredProducts
+}
+
+
+/*
+Feature 5 - Sort by price
+
+As a user
+I want to sort by price
+So that I can easily identify cheapest and expensive products
+
+Feature 6 - Sort by date
+
+As a user
+I want to sort by price
+So that I can easily identify recent and old products
+*/
+
+selectSort.addEventListener('change', event => {
+    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(SortProducts(currentProducts, event.target.value), currentPagination));
+})
+
+function SortProducts(currentProducts, selector) {
+    let clone = [...currentProducts]
+    var sortedProducts = []
+    if (selector == "no_sort") {
+        sortedProducts = [...currentProducts]
+    }
+    else if (selector == "price-asc")
+    {
+        console.log("ici")
+        sortedProducts = clone.sort((x, y) => x.price - y.price)
+    }
+    else if (selector == "price-desc")
+    {
+        sortedProducts = clone.sort((x, y) => y.price - x.price)
+    }
+    else if (selector == "date-asc")
+    {
+
+        sortedProducts = clone.sort((x, y) => {
+            let da = new Date(x.released);
+            let db = new Date(y.released);
+            return db - da;
+        })
+
+    }
+    else if (selector == "date-desc")
+    {
+
+        sortedProducts = clone.sort((x, y) => {
+            let da = new Date(x.released);
+            let db = new Date(y.released);
+            return da - db;
+        })
+
+    }
+    return sortedProducts
+}
+
 
 
 
