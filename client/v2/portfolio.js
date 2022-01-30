@@ -3,6 +3,7 @@
 
 // current products on the page
 let currentProducts = [];
+let favorite_list = [];
 let currentPagination = {};
 let currentSize = 12;//
 
@@ -63,25 +64,48 @@ const fetchProducts = async (page = 1, size = 12) => {
  * @param  {Array} products
  */
 const renderProducts = products => {
-  const fragment = document.createDocumentFragment();
-  const div = document.createElement('div');
-  const template = products
-    .map(product => {
-      return `
+    const fragment = document.createDocumentFragment();
+    const div = document.createElement('div');
+    /*
+    var favourite_status = false;
+    if (product.uuid in favourite_list) {
+        favourite_status = true;
+    }*/
+   
+    const template = products
+        .map(product => {
+            if (favorite_list.includes(product.uuid)) {
+                return `
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}</span>
-      </div>
-    `;
-    })
-    .join('');
+      </div>`;
+            }
+            else {
+                return `
+      <div class="product" id=${product.uuid}>
+        <span>${product.brand}</span>
+        <a href="${product.link}" target = "_blank">${product.name}</a>
+        <span>${product.price}</span>
+        <button onclick= AddFavorite('${product.uuid}')>${"&#10084;"}</button>
+      </div>`;
+            }}).join('');
 
-  div.innerHTML = template;
-  fragment.appendChild(div);
-  sectionProducts.innerHTML = '<h2>Products</h2>';
-  sectionProducts.appendChild(fragment);
+    div.innerHTML = template;
+    fragment.appendChild(div);
+    sectionProducts.innerHTML = '<h2>Products</h2>';
+    sectionProducts.appendChild(fragment);
+
 };
+
+
+function AddFavorite(uuid) {
+    //console.log(uuid)
+    favorite_list.push(uuid);
+    //console.log(favorite_list)
+    render(currentProducts, currentPagination)
+}
 
 /**
  * Render page selector
@@ -371,6 +395,25 @@ As a user
 I want to indicate the last released date
 So that I can understand if we have new products
 => Creation of new function LastReleased() and modify renderIndicator()
+
+Feature 12 - Open product link
+
+As a user
+I want to open product link in a new page
+So that I can buy the product easily
+
+Feature 13 - Save as favorite
+
+As a user
+I want to save a product as favorite
+So that I can retreive this product later
+=> Modify RenderProducts(), add AddFavourite() function
+
+Feature 14 - Filter by favorite
+
+As a user
+I want to filter by favorite products
+So that I can load only my favorite products
 */
 
 
