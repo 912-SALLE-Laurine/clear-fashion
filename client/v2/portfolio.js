@@ -12,10 +12,17 @@ const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
-const spanNbProducts = document.querySelector('#nbProducts');
 const selectFilterPrice = document.querySelector('#filter-price-select')
 const selectFilterDate = document.querySelector('#filter-date-select')
 const selectSort = document.querySelector('#sort-select');
+
+const spanNbProducts = document.querySelector('#nbProducts');
+const spanNbNewProducts = document.querySelector('#nbNewProducts');
+const spanp50 = document.querySelector('#p50');
+const spanp90 = document.querySelector('#p90');
+const spanp95 = document.querySelector('#p95');
+const spanLastReleased = document.querySelector('#lastReleased');
+
 /**
  * Set global value
  * @param {Array} result - products to display
@@ -110,10 +117,41 @@ const renderBrands = products => {
  * @param  {Object} pagination
  */
 const renderIndicators = pagination => {
-  const {count} = pagination;
+    const { count } = pagination;
 
-  spanNbProducts.innerHTML = count;
+    spanNbProducts.innerHTML = count;
+    spanNbNewProducts.innerHTML = CountNewProducts();
+    spanp50.innerHTML = Percentile(0.50);
+    spanp90.innerHTML = Percentile(0.90);
+    spanp95.innerHTML = Percentile(0.95);
+    spanLastReleased.innerHTML = LastReleased();
 };
+
+function LastReleased() {
+    var sortedProducts = SortProducts(currentProducts, "date-asc")
+    return sortedProducts[0].released
+}
+
+function CountNewProducts() {
+    var count = 0
+    for (var product of currentProducts) {
+        let today = new Date('2022-01-30')
+        let released = new Date(product.released);
+        if (today - released < 14 * 1000 * 60 * 60 * 24) {
+            count += 1
+        }
+    }
+    return count
+}
+
+function Percentile(p) {
+    let clone = [...currentProducts]
+    var sortedProducts = clone.sort((x, y) => x.price - y.price)
+    var index = p * sortedProducts.length
+    index = Math.round(index)
+    var percentile = sortedProducts[index].price
+    return percentile
+}
 
 const render = (products, pagination) => {
     renderBrands(products);
@@ -265,6 +303,8 @@ selectSort.addEventListener('change', event => {
         .then(() => render(SortProducts(currentProducts, event.target.value), currentPagination));
 })
 
+
+
 function SortProducts(currentProducts, selector) {
     let clone = [...currentProducts]
     var sortedProducts = []
@@ -273,7 +313,7 @@ function SortProducts(currentProducts, selector) {
     }
     else if (selector == "price-asc")
     {
-        console.log("ici")
+
         sortedProducts = clone.sort((x, y) => x.price - y.price)
     }
     else if (selector == "price-desc")
@@ -303,7 +343,35 @@ function SortProducts(currentProducts, selector) {
     return sortedProducts
 }
 
+/*
+Feature 8 - Number of products indicator
 
+As a user
+I want to indicate the total number of products
+So that I can understand how many products is available
+=> Already done by the teacher
+
+Feature 9 - Number of recent products indicator
+
+As a user
+I want to indicate the total number of recent products
+So that I can understand how many new products are available
+=> Creation new function CountNewProducts() and modify renderIndicator()
+
+Feature 10 - p50, p90 and p95 price value indicator
+
+As a user
+I want to indicate the p50, p90 and p95 price value
+So that I can understand the price values of the products
+=> Creation of new function Percentile() and modify renderIndicator()
+
+Feature 11 - Last released date indicator
+
+As a user
+I want to indicate the last released date
+So that I can understand if we have new products
+=> Creation of new function LastReleased() and modify renderIndicator()
+*/
 
 
 document.addEventListener('DOMContentLoaded', () =>
