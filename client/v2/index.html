@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,13 +19,26 @@
         <label for="page-select">Go to page:</label>
         <select name="page" id="page-select"> </select>
       </div>
-      <div id="filters">
-        <span>By reasonable price</span>
-        <span>By recently released</span>
-        <div id="brand">
-          <label for="brand-select">By brands:</label>
+      <div id="filter-price">
+          <label for="filter-price-select">Filter price:</label>
+          <select name="filter-price" id="filter-price-select">
+              <option value="reasonable_price">Reasonable price</option>
+              <option value="no_filter">No filter</option>
+
+          </select>
+      </div>
+      <div id="filter-date">
+          <label for="filter-date-select">Filter date:</label>
+          <select name="filter-date" id="filter-date-select">
+              <option value="no_filter">No filter</option>
+              <option value="recent_product">Recent product</option>
+          </select>
+      </div>
+          
+      <div id="brand">
+          <label for="brand-select">Brands:</label>
           <select name="brand" id="brand-select"> </select>
-        </div>
+      
       </div>
       <div id="sort">
         <label for="sort-select">Sort:</label>

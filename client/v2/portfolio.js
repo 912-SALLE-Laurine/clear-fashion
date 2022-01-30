@@ -4,7 +4,7 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
-let currentSize = 1;//
+let currentSize = 12;//
 
 
 // inititiqte selectors
@@ -13,7 +13,8 @@ const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
-
+const selectFilterPrice = document.querySelector('#filter-price-select')
+const selectFilterDate = document.querySelector('#filter-date-select')
 /**
  * Set global value
  * @param {Array} result - products to display
@@ -89,6 +90,20 @@ const renderPagination = pagination => {
   selectPage.selectedIndex = currentPage - 1;
 };
 
+// Show the list of brand names to filter
+const renderBrands = products => {
+    let options = [... new Set(products.flatMap(x => x.brand))];
+
+    selectBrand[0] = new Option("all");
+    var i = 1;
+    for (var option of options) {
+        selectBrand[i] = new Option(option);
+
+        i += 1;
+    }
+
+};
+
 /**
  * Render page selector
  * @param  {Object} pagination
@@ -100,9 +115,11 @@ const renderIndicators = pagination => {
 };
 
 const render = (products, pagination) => {
-  renderProducts(products);
-  renderPagination(pagination);
-  renderIndicators(pagination);
+    renderBrands(products);
+    renderProducts(products);
+    renderPagination(pagination);
+    renderIndicators(pagination);
+   
 };
 
 /**
@@ -114,18 +131,13 @@ const render = (products, pagination) => {
  * @type {[type]}
  */
 selectShow.addEventListener('change', event => {
-    currentSize = parseInt(event.target.value)//
-
-  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-    .then(setCurrentProducts) 
-    .then(() => render(currentProducts, currentPagination));
+    //currentSize = parseInt(event.target.value)//
+    fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+        .then(setCurrentProducts) 
+            .then(() => render(currentProducts, currentPagination));
 });
 
-document.addEventListener('DOMContentLoaded', () =>
-  fetchProducts()
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination))
-);
+
 
 /*
 Feature 1 - Browse pages
@@ -135,7 +147,7 @@ I want to browse available pages
 So that I can load more products
 */
 selectPage.addEventListener('change', event => {
-    fetchProducts(parseInt(event.target.value), currentSize)
+    fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
         .then(setCurrentProducts) 
         .then(() => render(currentProducts, currentPagination));
 });
@@ -148,19 +160,64 @@ I want to filter by brands name
 So that I can browse product for a specific brand
 */
 
-
 selectBrand.addEventListener('change', event => {
-
+    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(filterBrand(currentProducts, event.target.value), currentPagination));
 })
 
-const brands = {}
-
-for (const name of listBrandName) {
-    brands[name] = [];
-    for (const product of marketplace) {
-        if (product.brand == name) {
-            brands[name].push(product)
+function filterBrand(currentProducts, brandName) {
+    var filteredProducts = []
+    if (brandName == "all") {
+        filteredProducts = [...currentProducts]
+    }
+    for (var product of currentProducts) {
+        if (product.brand == brandName) {
+            filteredProducts.push(product)
         }
     }
+    
+    return filteredProducts
 }
+
+/*
+Feature 3 - Filter by recent products
+
+As a user
+I want to filter by recent products
+So that I can browse the new released products (less than 2 weeks)
+*/
+
+selectFilterDate.addEventListener('change', event => {
+    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(filterDate(currentProducts, event.target.value), currentPagination));
+})
+
+function filterDate(currentProducts, selector) {
+    var filteredProducts = []
+    if (selector == "No filter") {
+        filteredProducts = [...currentProducts]
+    }
+    else {
+        for (var product of currentProducts) {
+            let today = new Date('2022-01-30')
+            let released = new Date(product.released);
+            console.log(released);
+            if (today - released < 14 * 1000 * 60 * 60 * 24) {
+                filteredProducts.push(product)
+            }
+        }
+    }
+
+    return filteredProducts
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () =>
+    fetchProducts()
+        .then(setCurrentProducts)
+        .then(() => render(currentProducts, currentPagination))
+);
 
