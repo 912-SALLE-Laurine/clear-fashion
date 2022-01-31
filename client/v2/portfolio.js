@@ -15,6 +15,7 @@ const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const selectFilterPrice = document.querySelector('#filter-price-select')
 const selectFilterDate = document.querySelector('#filter-date-select')
+const selectFilterFavorite = document.querySelector('#filter-favorite-select')
 const selectSort = document.querySelector('#sort-select');
 
 const spanNbProducts = document.querySelector('#nbProducts');
@@ -80,6 +81,8 @@ const renderProducts = products => {
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}</span>
+        <span>&nbsp;</span>
+        <span style="color:#FF8773; font-size:20px">${"&#10084;"}</span>
       </div>`;
             }
             else {
@@ -88,7 +91,7 @@ const renderProducts = products => {
         <span>${product.brand}</span>
         <a href="${product.link}" target = "_blank">${product.name}</a>
         <span>${product.price}</span>
-        <button onclick= AddFavorite('${product.uuid}')>${"&#10084;"}</button>
+        <button style="border: none; background : none; color:#8FB8C1; font-size : 20px;" onclick= AddFavorite('${product.uuid}')>${"&#10084;"}</button>
       </div>`;
             }}).join('');
 
@@ -192,7 +195,7 @@ const render = (products, pagination) => {
 /**
  * Select the number of products to display
  */
-<<<<<<< HEAD
+
 selectShow.addEventListener('change', event => {
     //currentSize = parseInt(event.target.value)//
     fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
@@ -416,25 +419,32 @@ I want to filter by favorite products
 So that I can load only my favorite products
 */
 
+selectFilterFavorite.addEventListener('change', event => {
+    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(filterFavorite(currentProducts, event.target.value), currentPagination));
+})
+
+function filterFavorite(currentProducts, selector) {
+    var filteredProducts = []
+    if (selector == "no_filter") {
+        filteredProducts = [...currentProducts]
+    }
+    else {
+        for (var product of currentProducts) {
+           
+            if (favorite_list.includes(product.uuid)) {
+                filteredProducts.push(product)
+            }
+        }
+    }
+
+    return filteredProducts
+}
+
 
 document.addEventListener('DOMContentLoaded', () =>
     fetchProducts()
         .then(setCurrentProducts)
         .then(() => render(currentProducts, currentPagination))
 );
-
-=======
-selectShow.addEventListener('change', async (event) => {
-  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
-
-  setCurrentProducts(products);
-  render(currentProducts, currentPagination);
-});
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const products = await fetchProducts();
-
-  setCurrentProducts(products);
-  render(currentProducts, currentPagination);
-});
->>>>>>> 22aaa04fe745ab34e6cd99c453640d670cfb4762
