@@ -8,7 +8,7 @@ let currentPagination = {};
 let currentSize = 12;//
 
 
-// inititiqte selectors
+// instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
@@ -191,8 +191,8 @@ const render = (products, pagination) => {
 
 /**
  * Select the number of products to display
- * @type {[type]}
  */
+<<<<<<< HEAD
 selectShow.addEventListener('change', event => {
     //currentSize = parseInt(event.target.value)//
     fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
@@ -423,3 +423,18 @@ document.addEventListener('DOMContentLoaded', () =>
         .then(() => render(currentProducts, currentPagination))
 );
 
+=======
+selectShow.addEventListener('change', async (event) => {
+  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const products = await fetchProducts();
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+>>>>>>> 22aaa04fe745ab34e6cd99c453640d670cfb4762
