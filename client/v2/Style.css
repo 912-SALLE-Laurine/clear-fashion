@@ -31,4 +31,14 @@ a {
 .button {
     background-color: #4CAF50;
 }
+.choix show {
+    background-color: #4CAF50;
+    min-width: 50px;
+}
+.choix option {
+    background-color: #f28c8c;
+    color: white;
+    padding: 20px;
+    display: block;
+}
 

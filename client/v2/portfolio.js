@@ -78,9 +78,9 @@ const renderProducts = products => {
             if (favorite_list.includes(product.uuid)) {
                 return `
       <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
+        <span >${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
-        <span>${product.price}</span>
+        <span>${product.price}&euro;</span>
         <span>&nbsp;</span>
         <span style="color:#FF8773; font-size:20px">${"&#10084;"}</span>
       </div>`;
@@ -88,9 +88,9 @@ const renderProducts = products => {
             else {
                 return `
       <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
+        <span style="text-align:center;">${product.brand}</span>
         <a href="${product.link}" target = "_blank">${product.name}</a>
-        <span>${product.price}</span>
+        <span>${product.price}&euro;</span>
         <button style="border: none; background : none; color:#8FB8C1; font-size : 20px;" onclick= AddFavorite('${product.uuid}')>${"&#10084;"}</button>
       </div>`;
             }}).join('');
@@ -177,7 +177,7 @@ function Percentile(p) {
     var index = p * sortedProducts.length
     index = Math.round(index)
     var percentile = sortedProducts[index].price
-    return percentile
+    return percentile.toString() + "&euro;"
 }
 
 const render = (products, pagination) => {
