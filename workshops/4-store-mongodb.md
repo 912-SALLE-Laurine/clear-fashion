@@ -81,11 +81,13 @@ const db =  client.db(MONGODB_DB_NAME)
 
 5. **Create at least 3 methods** to find products according query.
 
-These 3 methods should
+These 5 methods should
 
 - Find all products related to a given brands
 - Find all products less than a price
 - Find all products sorted by price
+- Find all products sorted by date
+- Find all products scraped less than 2 weeks
 
 
 ```js
