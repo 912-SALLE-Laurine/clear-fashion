@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-process-exit */
 const dedicatedbrand = require('./sites/dedicatedbrand');
 const loom = require('./sites/loom');
-const db = require('./db');
+const db = require('./connexion');
 
 async function sandbox () {
   try {
@@ -51,7 +51,7 @@ async function sandbox () {
 
     console.log('\n');
 
-    const result = await db.insert(products);
+    const result = await db.insert_products([products]);
 
     console.log(`💽  ${result.insertedCount} inserted products`);
 

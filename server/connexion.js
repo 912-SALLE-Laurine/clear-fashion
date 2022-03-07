@@ -16,7 +16,20 @@ async function connect() {
     }
 }
 //connect()
+const { ObjectId } = require('mongodb');
+// Find product by id
+module.exports.find_by_id = async id => {
+    // Connection to the data base
+    const db = await connect();
+    //const collection = db.collection('products');
 
+    // Get requested products 
+    const collection = db.collection('products');
+    const products = await collection.find({ "_id": ObjectId(id) }).toArray();
+
+    // console.log(products);
+    return (products)
+}
 
 // Insert the products
 //const dedicated_products = require('./dedicated.json');
