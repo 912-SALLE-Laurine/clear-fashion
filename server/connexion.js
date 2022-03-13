@@ -1,4 +1,4 @@
-// tuto : https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i
+﻿// tuto : https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i
 const { MongoClient } = require('mongodb');
 
 const MONGODB_URI = "mongodb+srv://clearfashion_user:clearfashion_user@cluster0.g1yua.mongodb.net/clearfashion?retryWrites=true&w=majority";
@@ -16,7 +16,8 @@ async function connect() {
     }
 }
 //connect()
-const { ObjectId } = require('mongodb');
+var ObjectId = require('mongodb').ObjectId;
+
 // Find product by id
 module.exports.find_by_id = async id => {
     // Connection to the data base
@@ -24,12 +25,30 @@ module.exports.find_by_id = async id => {
     //const collection = db.collection('products');
 
     // Get requested products 
+
+    console.log(id)
     const collection = db.collection('products');
-    const products = await collection.find({ "_id": ObjectId(id) }).toArray();
+    const products = await collection.find({ "_id": ObjectId(id.trim()) }).toArray();
 
     // console.log(products);
     return (products)
 }
+//find_by_id("6220dc033be53621875415d8")
+
+
+module.exports.find_limit = async (query, limit) => {
+    try {
+        const db = await connect();
+        const collection = db.collection('products');
+        const result = await collection.aggregate(query).toArray();
+
+        return result;
+    } catch (error) {
+        console.error('🚨 collection.find.limit...', error);
+        return null;
+    }
+};
+
 
 // Insert the products
 //const dedicated_products = require('./dedicated.json');
