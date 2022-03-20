@@ -173,15 +173,14 @@ const renderBrands = products => {
  * Render page selector
  * @param  {Object} pagination
  */
-const renderIndicators = pagination => {
-    const { count } = pagination;
+function renderIndicators() {
 
-    spanNbProducts.innerHTML = count;
-    spanNbNewProducts.innerHTML = CountNewProducts();
+    spanNbProducts.innerHTML = currentProducts.length;
+    //spanNbNewProducts.innerHTML = CountNewProducts();
     spanp50.innerHTML = Percentile(0.50);
     spanp90.innerHTML = Percentile(0.90);
     spanp95.innerHTML = Percentile(0.95);
-    spanLastReleased.innerHTML = LastReleased();
+    //spanLastReleased.innerHTML = LastReleased();
 };
 
 function LastReleased() {
@@ -214,7 +213,7 @@ const render = (products) => {
     renderBrands(products);
     renderProducts(products);
     //renderPagination(pagination);
-    //renderIndicators(pagination);
+    renderIndicators();
 
 };
 
@@ -255,6 +254,7 @@ selectBrand.addEventListener('change', event => {
         .then(() => render(currentProducts));
 })
 
+/*
 function filterBrand(currentProducts, brandName) {
     var filteredProducts = []
     if (brandName == "all") {
@@ -267,7 +267,7 @@ function filterBrand(currentProducts, brandName) {
     }
 
     return filteredProducts
-}
+}*/
 
 /*
 Feature 3 - Filter by recent products
@@ -276,6 +276,7 @@ I want to filter by recent products
 So that I can browse the new released products (less than 2 weeks)
 */
 
+/*
 selectFilterDate.addEventListener('change', event => {
     fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
         .then(setCurrentProducts)
@@ -298,7 +299,7 @@ function filterDate(currentProducts, selector) {
     }
 
     return filteredProducts
-}
+}*/
 
 /*
  Feature 4 - Filter by reasonable price
@@ -311,6 +312,7 @@ selectFilterPrice.addEventListener('change', event => {
     fetchProducts(currentPagination.currentSize, currentBrand, parseInt(event.target.value))
         .then(() => render(currentProducts));
 })
+/*
 // filterPrice(currentProducts, event.target.value), currentPagination)
 function filterPrice(currentProducts, selector) {
     var filteredProducts = []
@@ -328,6 +330,7 @@ function filterPrice(currentProducts, selector) {
 
     return filteredProducts
 }
+*/
 
 
 /*
@@ -347,7 +350,7 @@ selectSort.addEventListener('change', event => {
 })
 
 
-
+/*
 function SortProducts(currentProducts, selector) {
     let clone = [...currentProducts]
     var sortedProducts = []
@@ -381,6 +384,7 @@ function SortProducts(currentProducts, selector) {
     }
     return sortedProducts
 }
+*/
 
 /*
 Feature 8 - Number of products indicator
