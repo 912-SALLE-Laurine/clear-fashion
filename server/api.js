@@ -6,6 +6,11 @@ const db = require('./connexion')
 //console.log(db.findProductsByID("6220dc033be5362187541bf9"))
 const PORT = 8092;
 
+// https://client-zeta-olive.vercel.app client
+// https://server-six-teal.vercel.app/ server
+// https://v2-sepia.vercel.app client v2 test 
+
+
 const app = express();
 
 module.exports = app;
@@ -22,27 +27,22 @@ app.get('/', (request, response) => {
 
 app.get('/products/search', async (request, response) => {
     // set default values for query parameters
-    const { brand = 'all', price = 'all', limit = 12 } = request.query;
+    const { brand = 'all', price = 'all', limit = 12, skip = 0 , sort = 1} = request.query;
     if (brand === 'all' && price === 'all') {
-        const products = await db.find_limit([{ '$sort': { "price": 1 } }, {'$limit' : parseInt(limit)}], parseInt(limit));
+        const products = await db.find_limit([{ '$sort': { "price": parseInt(sort)} }, { '$limit': parseInt(limit) }, { '$skip': parseInt(skip) }]);
         response.send(products);
     } else if (brand === 'all') {
-        const products = await db.find_limit([{ '$match': { 'price': parseInt(price) } }, { '$sort': { "price": 1 } }, {'$limit': parseInt(limit) }], parseInt(limit));
+        const products = await db.find_limit([{ '$match': { 'price': { '$lte': parseInt(price) } } }, { '$sort': { "price": parseInt(sort) } }, { '$limit': parseInt(limit) }, { '$skip': parseInt(skip) }]);
         response.send(products);
     } else if (price === 'all') {
         const products = await db.find_limit([{
             '$match': { 'brand': brand }
-        }, { '$sort': { "price": 1 } }, {'$limit': parseInt(limit)}], parseInt(limit));
+        }, { '$sort': { "price": parseInt(sort) } }, { '$limit': parseInt(limit) }, { '$skip': parseInt(skip) }]);
         response.send(products);
     } else {
-        const products = await db.find_limit([{
-            '$match': { 'brand': brand }
-        },
+        const products = await db.find_limit([{'$match': { 'brand': brand }},
             { '$match': { 'price': { '$lte': parseInt(price) } } },
-            { '$sort': { "price": 1 } }, {'$limit': parseInt(limit)
-        }],
-            parseInt(limit)
-        );
+            { '$sort': { "price": parseInt(sort)} }, { '$limit': parseInt(limit) }, { '$skip': parseInt(skip) }]);
         response.send(products);
     }
 });
@@ -54,17 +54,6 @@ app.get('/products/:id', async (request, response) => {
     response.send({ "product": product})
 })
 
-
-
-
-//app.get('/products/:id', (request, response) => {
-    //request.params.id
-    //response.json(request.params)
-    //console.log(response.json(request.params))
-    //response.send({ 'ack': false });
-    //let product = await db.find_by_id("6220dc033be5362187541bf9")
-    //response.status(200).json({ product[0] })
-//});
 
 app.listen(PORT);
 

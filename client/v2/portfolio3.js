@@ -1,4 +1,4 @@
-﻿// JavaScript source code
+﻿// API PErso et code perso
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 'use strict';
 
@@ -6,7 +6,10 @@
 let currentProducts = [];
 let favorite_list = [];
 let currentPagination = {};
-let currentSize = 12;//
+currentPagination['currentSize'] = 12;
+let currentBrand = 'all';
+let currentMaxPrice = 1000;
+let currentSort = 1;
 
 
 // instantiate the selectors
@@ -34,6 +37,7 @@ const spanLastReleased = document.querySelector('#lastReleased');
 const setCurrentProducts = ({ result, meta }) => {
     currentProducts = result;
     currentPagination = meta;
+    
 };
 
 /**
@@ -42,19 +46,30 @@ const setCurrentProducts = ({ result, meta }) => {
  * @param  {Number}  [size=12] - size of the page
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12) => {
+const fetchProducts = async (size = currentPagination.currentSize, brand = currentBrand,  price=currentMaxPrice, sort=currentSort) => {
+    if (isNaN(price)) {
+        currentMaxPrice = 1000;
+        price = currentMaxPrice
+    }
     try {
         const response = await fetch(
-            `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
-        ); // Wait for getting response from the call
-        const body = await response.json(); // wait to create json data
-
+            `https://server-six-teal.vercel.app/products/search?price=${price}&brand=${brand}&limit=${size}&sort=${sort}`
+        );
+        const body = await response.json();
+        currentProducts = body;
+        currentPagination['currentPage'] = 1;
+        currentPagination['currentSize'] = size;
+        currentBrand = brand
+        currentMaxPrice = price
+        currentSort = sort;
         if (body.success !== true) {
             console.error(body);
             return { currentProducts, currentPagination };
         }
+        //return body.data
 
-        return body.data;
+        return body;
+
     } catch (error) {
         console.error(error);
         return { currentProducts, currentPagination };
@@ -76,9 +91,9 @@ const renderProducts = products => {
 
     const template = products
         .map(product => {
-            if (favorite_list.includes(product.uuid)) {
+            if (favorite_list.includes(product._id)) {
                 return `
-      <div class="product" id=${product.uuid}>
+      <div class="product" id=${product._id}>
         <span >${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}&euro;</span>
@@ -88,7 +103,7 @@ const renderProducts = products => {
             }
             else {
                 return `
-      <div class="product" id=${product.uuid}>
+      <div class="product" id=${product._id}>
         <span style="text-align:center;">${product.brand}</span>
         <a href="${product.link}" target = "_blank">${product.name}</a>
         <span>${product.price}&euro;</span>
@@ -129,16 +144,29 @@ const renderPagination = pagination => {
 
 // Show the list of brand names to filter
 const renderBrands = products => {
-    let options = [... new Set(products.flatMap(x => x.brand))];
 
-    selectBrand[0] = new Option("all");
-    var i = 1;
+    /*
+    let options = ['all', 'dedicatedbrand', 'montlimart', 'adresseparis'];
+    var i = 0
     for (var option of options) {
         selectBrand[i] = new Option(option);
-
-        i += 1;
+        i += 1
     }
+    //selectBrand.innerHTML = options;
+    selectBrand.selectedIndex = currentBrand;*/
 
+
+    const options = `<option value="all">all brands</option>
+        <option value="dedicatedbrand">dedicatedbrand</option>
+        <option value="montlimart">montlimart</option>
+        <option value="adresseparis">adresseparis</option>`;
+    let i = 0
+    if (currentBrand == "all") { i = 0 }
+    else if (currentBrand == "dedicatedbrand") { i = 1 }
+    else if (currentBrand == "montlimart") { i = 2 }
+    else if (currentBrand == "adresseparis") { i = 3 }
+    selectBrand.innerHTML = options;
+    selectBrand.selectedIndex = i;
 };
 
 /**
@@ -182,29 +210,25 @@ function Percentile(p) {
     return percentile.toString() + "&euro;"
 }
 
-const render = (products, pagination) => {
+const render = (products) => {
     renderBrands(products);
     renderProducts(products);
-    renderPagination(pagination);
-    renderIndicators(pagination);
+    //renderPagination(pagination);
+    //renderIndicators(pagination);
 
 };
 
-/**
- * Declaration of all Listeners
- */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Select the number of products to display
  */
 
-selectShow.addEventListener('change', event => {
-    //currentSize = parseInt(event.target.value)//
-    fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-        .then(setCurrentProducts)
-        .then(() => render(currentProducts, currentPagination));
-});
 
+selectShow.addEventListener('change', event => {
+    fetchProducts(parseInt(event.target.value))
+        .then(() => render(currentProducts)); //, pagination
+});
 
 
 /*
@@ -227,9 +251,8 @@ So that I can browse product for a specific brand
 */
 
 selectBrand.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
-        .then(setCurrentProducts)
-        .then(() => render(filterBrand(currentProducts, event.target.value), currentPagination));
+    fetchProducts(currentPagination.currentSize, event.target.value)
+        .then(() => render(currentProducts));
 })
 
 function filterBrand(currentProducts, brandName) {
@@ -285,11 +308,10 @@ So that I can buy affordable product i.e less than 50
 */
 
 selectFilterPrice.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
-        .then(setCurrentProducts)
-        .then(() => render(filterPrice(currentProducts, event.target.value), currentPagination));
+    fetchProducts(currentPagination.currentSize, currentBrand, parseInt(event.target.value))
+        .then(() => render(currentProducts));
 })
-
+// filterPrice(currentProducts, event.target.value), currentPagination)
 function filterPrice(currentProducts, selector) {
     var filteredProducts = []
     if (selector == "no_filter") {
@@ -320,9 +342,8 @@ So that I can easily identify recent and old products
 */
 
 selectSort.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
-        .then(setCurrentProducts)
-        .then(() => render(SortProducts(currentProducts, event.target.value), currentPagination));
+    fetchProducts(currentPagination.currentSize, currentBrand, currentMaxPrice, parseInt(event.target.value))
+        .then(() => render(currentProducts));
 })
 
 
@@ -423,6 +444,5 @@ function filterFavorite(currentProducts, selector) {
 
 document.addEventListener('DOMContentLoaded', () =>
     fetchProducts()
-        .then(setCurrentProducts)
-        .then(() => render(currentProducts, currentPagination))
+        .then(() => render(currentProducts))
 );

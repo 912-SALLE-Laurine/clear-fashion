@@ -36,7 +36,7 @@ module.exports.find_by_id = async id => {
 //find_by_id("6220dc033be53621875415d8")
 
 
-module.exports.find_limit = async (query, limit) => {
+module.exports.find_limit = async (query) => {
     try {
         const db = await connect();
         const collection = db.collection('products');
