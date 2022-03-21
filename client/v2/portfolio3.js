@@ -7,6 +7,8 @@ let currentProducts = [];
 let favorite_list = [];
 let currentPagination = {};
 currentPagination['currentSize'] = 12;
+currentPagination['currentPage'] = 1;
+currentPagination['paginationChoice'] = "actual"
 let currentBrand = 'all';
 let currentMaxPrice = 1000;
 let currentSort = 1;
@@ -14,7 +16,8 @@ let currentSort = 1;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
-const selectPage = document.querySelector('#page-select');
+const selectPagePrevious = document.querySelector('#previous-page');
+const selectPageNext = document.querySelector('#next-page');
 const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const selectFilterPrice = document.querySelector('#filter-price-select')
@@ -46,18 +49,26 @@ const setCurrentProducts = ({ result, meta }) => {
  * @param  {Number}  [size=12] - size of the page
  * @return {Object}
  */
-const fetchProducts = async (size = currentPagination.currentSize, brand = currentBrand,  price=currentMaxPrice, sort=currentSort) => {
+const fetchProducts = async (size = currentPagination.currentSize, page = "actual",  brand = currentBrand,  price=currentMaxPrice, sort=currentSort) => {
     if (isNaN(price)) {
         currentMaxPrice = 1000;
         price = currentMaxPrice
     }
+    if (page == "actual") {currentPagination.currentPage = 1}
+    if (page == "next") { currentPagination.currentPage = currentPagination.currentPage + 1 }
+    if (page == "previous") { currentPagination.currentPage = currentPagination.currentPage -1}
+    let pageNumber = currentPagination.currentPage
+    let skip = (pageNumber - 1) * size;
+    let limit = size * pageNumber;
+    console.log("skip : ", skip, " | limit : ", limit, " | pageNumber : ", pageNumber)
     try {
         const response = await fetch(
-            `https://server-six-teal.vercel.app/products/search?price=${price}&brand=${brand}&limit=${size}&sort=${sort}`
+            `https://server-six-teal.vercel.app/products/search?price=${price}&brand=${brand}&limit=${limit}&sort=${sort}&skip=${skip}`
         );
         const body = await response.json();
+        console.log(body)
         currentProducts = body;
-        currentPagination['currentPage'] = 1;
+        //currentPagination['currentPage'] = 1;
         currentPagination['currentSize'] = size;
         currentBrand = brand
         currentMaxPrice = price
@@ -131,30 +142,23 @@ function AddFavorite(uuid) {
  * Render page selector
  * @param  {Object} pagination
  */
-const renderPagination = pagination => {
+function renderPagination() {
+    /*const options = `<option value="actual">actual</option>
+        <option value="previous">previous page</option>
+        <option value="next">next page</option>`;
     const { currentPage, pageCount } = pagination;
     const options = Array.from(
         { 'length': pageCount },
         (value, index) => `<option value="${index + 1}">${index + 1}</option>`
-    ).join('');
+    ).join('');*/
+    const options = ` <button style="border: none; background : none; color:#8FB8C1; font-size : 20px;" onclick= AddFavorite('${product.uuid}')>${"&#10084;"}</button>`
 
     selectPage.innerHTML = options;
-    selectPage.selectedIndex = currentPage - 1;
+    selectPage.selectedIndex = 0;
 };
 
 // Show the list of brand names to filter
 const renderBrands = products => {
-
-    /*
-    let options = ['all', 'dedicatedbrand', 'montlimart', 'adresseparis'];
-    var i = 0
-    for (var option of options) {
-        selectBrand[i] = new Option(option);
-        i += 1
-    }
-    //selectBrand.innerHTML = options;
-    selectBrand.selectedIndex = currentBrand;*/
-
 
     const options = `<option value="all">all brands</option>
         <option value="dedicatedbrand">dedicatedbrand</option>
@@ -212,7 +216,7 @@ function Percentile(p) {
 const render = (products) => {
     renderBrands(products);
     renderProducts(products);
-    //renderPagination(pagination);
+    //renderPagination();
     renderIndicators();
 
 };
@@ -236,10 +240,18 @@ As a user
 I want to browse available pages
 So that I can load more products
 */
+/*
 selectPage.addEventListener('change', event => {
-    fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
-        .then(setCurrentProducts)
-        .then(() => render(currentProducts, currentPagination));
+    fetchProducts(currentPagination.currentSize, event.target.value)
+        .then(() => render(currentProducts)); //, pagination
+});*/
+selectPagePrevious.addEventListener('click', event => {
+    fetchProducts(currentPagination.currentSize, "previous")
+        .then(() => render(currentProducts)); //, pagination
+});
+selectPageNext.addEventListener('click', event => {
+    fetchProducts(currentPagination.currentSize, "next")
+        .then(() => render(currentProducts)); //, pagination
 });
 
 /*
@@ -250,7 +262,7 @@ So that I can browse product for a specific brand
 */
 
 selectBrand.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentSize, event.target.value)
+    fetchProducts(currentPagination.currentSize, "actual", event.target.value)
         .then(() => render(currentProducts));
 })
 
@@ -309,7 +321,7 @@ So that I can buy affordable product i.e less than 50
 */
 
 selectFilterPrice.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentSize, currentBrand, parseInt(event.target.value))
+    fetchProducts(currentPagination.currentSize, currentPagination.currentPage, currentBrand, parseInt(event.target.value))
         .then(() => render(currentProducts));
 })
 /*
@@ -345,7 +357,7 @@ So that I can easily identify recent and old products
 */
 
 selectSort.addEventListener('change', event => {
-    fetchProducts(currentPagination.currentSize, currentBrand, currentMaxPrice, parseInt(event.target.value))
+    fetchProducts(currentPagination.currentSize, currentPagination.currentPage, currentBrand, currentMaxPrice, parseInt(event.target.value))
         .then(() => render(currentProducts));
 })
 
