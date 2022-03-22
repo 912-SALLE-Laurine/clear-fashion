@@ -20,8 +20,8 @@ const parse = data => {
                 parseInt($(element)
                     .find('.price').text());
             const link = $(element).find('.product-name').attr('href');
-
-            return { name, link, price };
+            const image = $(element).find('.product_img_link .replace-2x').attr('data-original')
+            return { name, link, price, image };
         })
         .get();
 };

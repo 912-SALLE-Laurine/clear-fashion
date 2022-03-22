@@ -103,6 +103,7 @@ const renderProducts = products => {
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}&euro;</span>
         <span>&nbsp;</span>
+ <div class="image"><img src = "${product.image}" /></div>
         <span style="color:#FF8773; font-size:20px">${"&#10084;"}</span>
       </div>`;
             }
@@ -112,6 +113,7 @@ const renderProducts = products => {
         <span style="text-align:center;">${product.brand}</span>
         <a href="${product.link}" target = "_blank">${product.name}</a>
         <span>${product.price}&euro;</span>
+         <div class="image"><img src = "${product.image}"/></div>
         <button style="border: none; background : none; color:#8FB8C1; font-size : 20px;" onclick= AddFavorite('${product._id}')>${"&#10084;"}</button>
       </div>`;
             }

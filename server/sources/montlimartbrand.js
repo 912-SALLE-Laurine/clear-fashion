@@ -10,21 +10,23 @@ const cheerio = require('cheerio');
 const parse = data => {
     const $ = cheerio.load(data);
 
-    return $('.category-products .products-grid .item .product-info')
+    return $('.category-products .products-grid .item')
         .map((i, element) => {
             let name = $(element)
-                .find('a')
+                .find('.product-info a')
                 .text()
                 .trim()
                 .replace(/\s/g, ' ').split("   ");
 
             const price =
                 parseInt($(element)
-                    .find('.price').text());
-            const link = $(element).find('a').attr('href');
+                    .find('.product-info .price').text());
+            const link = $(element).find('.product-info a').attr('href');
             const last = name[name.length - 1] // last element of the list : color
             name = name[0] + last; // we keep the name and the color of the product
-            return { name, link, price };
+            let image = $(element).find('img').attr('src')
+            if (image !== undefined) image = image.toString().replace(' ', '%20');
+            return { name, link, price, image};
         })
         .get();
 };
