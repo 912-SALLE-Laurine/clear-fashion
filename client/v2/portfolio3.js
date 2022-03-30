@@ -94,11 +94,111 @@ const fetchProducts = async (size = currentPagination.currentSize, page = "actua
 const renderProducts = products => {
     const fragment = document.createDocumentFragment();
     const div = document.createElement('div');
-    const template = products
+    let template = `<div class="cards">`
+    template += products
         .map(product => {
             if (favorite_list.includes(product._id)) {
                 return `
+      <div class="card" id=${product._id}>
+<div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center">  <button class="wishlist" style="border: none;color:#FF8773" onclick= DeleteFavourite('${product._id}')>${"&#10084;"}</button> </div>
+                    </div> <img src="${product.image}" class="img-fluid rounded thumbnail-image">
+                </div><div class="product-detail-container p-2">
+                        
+                            <h5 class="dress-name"  href="${product.link}">${product.name}</h5>
+                            <span class="new-price">${product.price}</span>
+                        
+
+                            <h5 class="brand-name">${product.brand}</h5>
+                        </div>
+                    </div>
+         
+
+      </div>`;
+            }
+            else {
+                return `
+      <div class="card" id=${product._id}>
+<div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center">  <button class="wishlist" style="border: none; color:#8FB8C1" onclick= AddFavorite('${product._id}')>${"&#10084;"}</button> </div>
+                    </div> <img src="${product.image}" class="img-fluid rounded thumbnail-image">
+                </div><div class="product-detail-container p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a  href="${product.link}">${product.name}</a>
+                            <span class="new-price">${product.price}€</span>
+
+                            <h5 class="brand-name">${product.brand}</h5>
+                        </div>
+                    </div>
+         
+
+      </div>`;
+            }
+        }).join('');
+    template += `</div>`
+    console.log(template)
+    console.log(typeof(template))
+    div.innerHTML = template;
+    fragment.appendChild(div);
+    sectionProducts.innerHTML = '<h2>Products</h2>';
+    //sectionProducts.appendChild(`<div class="cards">`);
+    sectionProducts.appendChild(fragment);
+    //sectionProducts.appendChild(`</div>`)
+
+};
+/*
+ * 
+ * 
+ *const template = products
+        .map(product => {
+            if (favorite_list.includes(product._id)) {
+                return
+                `<div class="card">
+                <div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center">  <span class="wishlist" ><i class="fa fa-heart-o"></i></span> </div>
+                    </div> <img src="${product.image}" class="img-fluid rounded thumbnail-image">
+                </div>
+                    <div class="product-detail-container p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="dress-name"  href="${product.link}">${product.name}</h5>
+                            <div class="d-flex flex-column mb-2"> <span class="new-price">85€</span> </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="brand-name">${product.brand}</h5>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            else {
+                return
+                `<div class="card">
+                <div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center">  <span class="wishlist"><i class="fa fa-heart-o"></i></span> </div>
+                    </div> <img src="${product.image}" class="img-fluid rounded thumbnail-image">
+                </div>
+                    <div class="product-detail-container p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="dress-name"  href="${product.link}">${product.name}</h5>
+                            <div class="d-flex flex-column mb-2"> <span class="new-price">85€</span> </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="brand-name">${product.brand}</h5>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        }).join('');
+ * 
+const template = products
+    .map(product => {
+        if (favorite_list.includes(product._id)) {
+            return `
       <div class="product" id=${product._id}>
+<span>Brand</span>
         <span >${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}&euro;</span>
@@ -106,26 +206,24 @@ const renderProducts = products => {
  <div class="image"><img src = "${product.image}" /></div>
         <span style="color:#FF8773; font-size:20px">${"&#10084;"}</span>
       </div>`;
-            }
-            else {
-                return `
+        }
+        else {
+            return `
       <div class="product" id=${product._id}>
+<span>Brand : </span>
         <span style="text-align:center;">${product.brand}</span>
+<span><br/>Product :</span>
         <a href="${product.link}" target = "_blank">${product.name}</a>
+<span><br/>Price :</span>
         <span>${product.price}&euro;</span>
-         <div class="image"><img src = "${product.image}"/></div>
+         
         <button style="border: none; background : none; color:#8FB8C1; font-size : 20px;" onclick= AddFavorite('${product._id}')>${"&#10084;"}</button>
+<div class="product-im">
+<div class="image"><img src = "${product.image}"/></div></div>
       </div>`;
-            }
-        }).join('');
-
-    div.innerHTML = template;
-    fragment.appendChild(div);
-    sectionProducts.innerHTML = '<h2>Products</h2>';
-    sectionProducts.appendChild(fragment);
-
-};
-
+        }
+    }).join('');
+*/
 
 function AddFavorite(_id) {
     //console.log(uuid)
@@ -134,6 +232,12 @@ function AddFavorite(_id) {
     render(currentProducts, currentPagination)
 }
 
+function DeleteFavorite(_id) {
+    //console.log(uuid)
+    //favorite_list.push(_id);
+    //console.log(favorite_list)
+    render(currentProducts, currentPagination)
+}
 /**
  * Render page selector
  * @param  {Object} pagination

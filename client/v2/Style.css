@@ -16,8 +16,18 @@ h2{
 h1, h2, strong {
     color: #FFBEA1;
 }
+h5 {
+    color: #FFBEA1;
+    margin-left: 10px;
+    margin-top : 0px
+}
 a {
     color: #51E0CE;
+    font-size: 13px;
+    font-weight: bold;
+    width: 75%;
+    margin-left: 10px;
+    margin-right: 10px
 }
 .header {
     background-image: url("header.png");
@@ -41,16 +51,109 @@ a {
     padding: 20px;
     display: block;
 }
-.photo img{
+.image img{
     height : 200px;
     width : auto;
-    border-radius : 8px;
+
 }
 .product {
-    text-align: center;
+    text-align: left;
     margin-bottom: 2em;
     border: 2px solid rgb(77, 86, 128);
-    padding: 5px;
-    border-radius: 10% / 60%;
+    padding-left : 10px;
+
     background-clip: content-box;
+}
+.product-im{
+    text-align : right;
+}
+
+
+
+
+
+.container {
+    width: 900px;
+    margin-top: 20px
+}
+.cards{
+    display:flex;
+    flex-wrap:wrap;
+    align-content : center
+        
+}
+
+.card {
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.image-container {
+    position: relative;
+}
+
+.thumbnail-image {
+    border-radius: 10px !important;
+    height: 200px;
+    width: 200px;
+}
+
+
+.wishlist {
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer
+}
+
+.first {
+    position: absolute;
+    width: 100%;
+    padding: 9px
+}
+
+.dress-name {
+    font-size: 13px;
+    font-weight: bold;
+    width: 75%
+}
+
+.brand-name {
+    font-size: 13px;
+    width: 75%
+}
+
+.new-price {
+    font-size: 13px;
+    margin-left: 10px;
+    font-weight: bold;
+    color: red
+}
+
+footer {
+    margin-top: 100px;
+    background-color: #FFBEA1;
+    display:flex;
+    color: white;
+    border-radius: 10px;
+    flex-wrap:wrap;
+    padding : 20px;
+}
+footer .social-media{
+    display:flex;
+}
+footer .social-media p {
+    text-align : center;
+    margin-right: 15px;
 }
