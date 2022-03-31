@@ -2,13 +2,12 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const db = require('./connexion')
-//console.log(db.find_by_id("6220dc033be5362187541bf9"))
-//console.log(db.findProductsByID("6220dc033be5362187541bf9"))
+
 const PORT = 8092;
 
-// https://client-zeta-olive.vercel.app client
+
 // https://server-six-teal.vercel.app/ server
-// https://v2-sepia.vercel.app client v2 test 
+// https://v2-sepia.vercel.app client 
 
 
 const app = express();

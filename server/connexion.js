@@ -22,9 +22,6 @@ var ObjectId = require('mongodb').ObjectId;
 module.exports.find_by_id = async id => {
     // Connection to the data base
     const db = await connect();
-    //const collection = db.collection('products');
-
-    // Get requested products 
 
     console.log(id)
     const collection = db.collection('products');

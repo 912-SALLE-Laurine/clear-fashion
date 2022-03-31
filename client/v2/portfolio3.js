@@ -1,6 +1,23 @@
-﻿// API PErso et code perso
+﻿
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 'use strict';
+
+// https://server-six-teal.vercel.app/ server
+// https://v2-sepia.vercel.app client 
+
+//Message for teacher
+console.log("Hi professor!\nHere is an introduction to tell you what I mangaged/ not managed to do in my application! \n(I hope it will be useful for you)")
+console.log('What I managed to implement: \n' +
+    '- Scraping + MongoDB + API + deployment\n' +
+    '- Display products with image\n' +
+    '- Filters : all the required filters works (except the filters about dates, because I did not found the date of the products when I scraped)\n' +
+    '- Indicators: all the required indicators works (except the ones about dates, for the same reason)\n' +
+    '- Save favorite products and keep the favorites when refreshing the webpage (the favorites are stored in the localStorage)\n' +
+    '- When a filter is applied, it is applied for all the database, not only for the current products in the page')
+
+console.log('What I did not managed to implement:\n' +
+    '- Display indicators about dates, and implement filters about dates (because I did not found dates in the websites I scraped)\n' +
+    '- The filters does not reset when we refresh (ex : we show 48 products, then refresh, and the filter display is yet 48 even if the application shows 12 products')
 
 //Instantiate the local storage for favorites
 //localStorage.removeItem('favorite_list')
