@@ -82,26 +82,6 @@ select:hover {
     background-color: #FF8773D4;
 }
 
-
-
-/*Products content*/
-.image img{
-    height : 200px;
-    width : auto;
-
-}
-.product {
-    text-align: left;
-    margin-bottom: 2em;
-    border: 2px solid rgb(77, 86, 128);
-    padding-left : 10px;
-
-    background-clip: content-box;
-}
-.product-im{
-    text-align : right;
-}
-
 .column {
     float: left;
     border-radius: 10px;
@@ -109,19 +89,20 @@ select:hover {
     display: flex;
     flex-wrap: wrap;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color : #fff;
-
+    background-color: #fff;
 }
 .left {
     width: 44%;
-    height : 200px;
+    height: 200px;
     margin-right: 20px;
 }
+
 .right {
     width: 43%;
     height: 200px;
     column-width: 60px;
 }
+
 .row:after {
     content: "";
     display: table;
@@ -129,10 +110,8 @@ select:hover {
 }
 
 
-.container {
-    width: 900px;
-    margin-top: 20px
-}
+/*Products content*/
+
 .cards{
     display:flex;
     flex-wrap:wrap;
@@ -162,7 +141,6 @@ select:hover {
     width: 226px;
 }
 
-
 .wishlist {
     height: 25px;
     width: 25px;
@@ -179,12 +157,6 @@ select:hover {
     position: absolute;
     width: 100%;
     padding: 9px
-}
-
-.dress-name {
-    font-size: 13px;
-    font-weight: bold;
-    width: 75%
 }
 
 .brand-name {
