@@ -6,37 +6,41 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>👕 Clear Fahion | Environmentally & human-friendly clothes</title>
 </head>
-  <body>
-      <div class="header">
-      </div>
-      <h1>Clear fashion</h1>
-      <section id="options">
-          <div class="choix">
-              <div class="show" id="show">
-                  <label for="show-select">Show:</label>
-                  <select name="show" id="show-select">
-                      <option value="12">12</option>
-                      <option value="24">24</option>
-                      <option value="48">48</option>
-                  </select>
-              </div>
+<body>
+
+    <div class="header">
+    </div>
+    <h1><i class="fa-solid fa-socks"></i> Clear Fahion | Environmentally & human-friendly clothes</h1>
+    <div class="row">
+        <div class="column left">
+            <section id="options">
+
+                <h2><i class="fa-solid fa-arrow-down-wide-short"></i> Filters:</h2>
+                <div class="choix">
+                    <div class="show" id="show">
+                        <label for="show-select">Show:</label>
+                            <select name="show" id="show-select">
+
+                                <option value="12">12 products</option>
+                                <option value="24">24 products</option>
+                                <option value="48">48 products</option>
+                            </select>
+                        </div>
+                    </div>
+                <div id="filter-price">
+                    <label for="filter-price-select">Filter price:</label>
+                    <select name="filter-price" id="filter-price-select">
+                        <option value="all">All products</option>
+                        <option value="25">25€</option>
+                        <option value="50">50€</option>
+                        <option value="75">75€</option>
+                        <option value="100">100€</option>
+                        <option value="200">200€</option>
 
 
-          </div>
-          <div id="filter-price">
-              <label for="filter-price-select">Filter price:</label>
-              <select name="filter-price" id="filter-price-select">
-                  <option value="all">All products</option>
-                  <option value="25">25€</option>
-                  <option value="50">50€</option>
-                  <option value="75">75€</option>
-                  <option value="100">100€</option>
-                  <option value="200">200€</option>
-
-
-              </select>
-          </div>
-          <!--<div id="filter-date">
+                    </select>
+                </div>
+                <!--<div id="filter-date">
         <label for="filter-date-select">Filter date:</label>
         <select name="filter-date" id="filter-date-select">
             <option value="no_filter">No filter</option>
@@ -44,68 +48,81 @@
         </select>
     </div>-->
 
-          <div id="brand">
-              <label for="brand-select">Brands:</label>
-              <select name="brand" id="brand-select"> </select>
+                <div id="brand">
+                    <label for="brand-select">Brands:</label>
+                    <select name="brand" id="brand-select"> </select>
 
-          </div>
-          <div id="sort">
-              <label for="sort-select">Sort:</label>
-              <select name="sort" id="sort-select">
-                  <!--<option value="1">No Sort</option>-->
-                  <option value="1">Cheaper</option>
-                  <option value="-1">Expensive</option>
-                  <!--<option value="date-asc">Recently released</option>
+                </div>
+                <div id="sort">
+                    <label for="sort-select">Sort:</label>
+                    <select name="sort" id="sort-select">
+                        <!--<option value="1">No Sort</option>-->
+                        <option value="1">Cheaper</option>
+                        <option value="-1">Expensive</option>
+                        <!--<option value="date-asc">Recently released</option>
             <option value="date-desc">Anciently released</option>-->
-              </select>
-          </div>
-          <div id="page">
-              <input type="button" id="previous-page" value="<" style="border : 2px solid  #FFBEA1; background :  #FFBEA1; color: black; font-size : 20px;">
-              <input type="button" id="next-page" value=">" style="border : 2px solid  #FFBEA1;background :  #FFBEA1; color: black; font-size : 20px;">
+                    </select>
+                </div>
+                <div class="pagination" id="page">
+                    <label>Page: </label>
+                    <input type="button" id="previous-page" value="previous">
+                    <input type="button" id="next-page" value="next" >
 
-          </div>
-          <div>
-              <input type="checkbox" id="filter-favorite-select">
-              <label for="filter-favorite-select">Show only favorites</label>
-          </div>
-      </section>
-      <section id="indicators">
-          <h2>Indicators</h2>
-          <div>
-              <span>Number of products</span>
-              <span id="nbProducts">0</span>
-          </div>
-          <div>
-              <span>Number of new products</span>
-              <span id="nbNewProducts">0</span>
-          </div>
-          <div>
-              <span>p50 price value</span>
-              <span id="p50">0</span>
-          </div>
-          <div>
-              <span>p90 price value</span>
-              <span id="p90">0</span>
-          </div>
-          <div>
-              <span>p95 price value</span>
-              <span id="p95">0</span>
-          </div>
-          <div>
-              <span>Last released date</span>
-              <span id="lastReleased">2020-01-01</span>
-          </div>
-      </section>
-      <section id="products"></section>
-      
-      <script type="text/javascript" charset="UTF-8" src="portfolio3.js"></script>
-  </body>
-  <footer>
-      <p>Projet réalisé par Laurine Sallé <br/></p>
-      <p>ESILV A4 DIA</p>
-      <p>Professeur : Yassine AZZOUT</p>
-      <div class="social-media">
-          <p><i class="fa-brands fa-github"></i></p>
-      </div>
-  </footer>
+                </div>
+                <div>
+                    <input class="checkbox" type="checkbox" id="filter-favorite-select">
+                    <label for="filter-favorite-select">Show only <span style="color: #b4574e; font-weight:bold">favorites</span></label>
+                </div>
+            </section>
+        </div>
+        <div class="column right">
+
+            <section id="indicators">
+                <h2><i class="fa-solid fa-calculator"></i> Indicators:</h2>
+                <div>
+                    <span style="font-weight: bold; color: #8FB8C1">Number of products : </span>
+                    <span id="nbProducts" style="color: white; background-color: #8FB8C1; font-weight: bold; padding: 5px; border-radius: 20%">_</span>
+                </div>
+                <div>
+                    <span style="color: #FFBEA1; font-weight: bold">P50</span><span> price value : </span>
+                    <span id="p50" style="color: #FFBEA1; font-weight: bold">_</span>
+                </div>
+                <div>
+                    <span style="color: #ff8773; font-weight: bold">P90</span><span> price value : </span>
+                    <span id="p90" style="color: #ff8773; font-weight: bold">_</span>
+                </div>
+                <div>
+                    <span style="color: #b4574e; font-weight: bold">P95</span><span> price value : </span>
+                    <span id="p95" style="color: #b4574e; font-weight: bold">_</span>
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <section id="products"></section>
+
+
+    <script type="text/javascript" charset="UTF-8" src="portfolio3.js"></script>
+</body>
+
+
+
+<footer class="footer-distributed">
+
+    <div class="footer-right">
+
+        <a><i class="fa-brands fa-github"></i></a>
+
+    </div>
+
+    <div class="footer-left">
+
+
+        <a>Project realized by Laurine Sallé (ESILV A4)</a>
+
+
+        <p>Teacher: Yassine AZZOUT</p>
+    </div>
+
+</footer>
 </html>
