@@ -6,7 +6,7 @@
 // https://v2-sepia.vercel.app client 
 
 //Message for teacher
-console.log("Hi professor!\nHere is an introduction to tell you what I mangaged/ not managed to do in my application! \n(I hope it will be useful for you)")
+console.log("Hello Sir!\nHere is an introduction to tell you what I mangaged/ not managed to do in my application! \n(I hope it will be useful for you)")
 console.log('What I managed to implement: \n' +
     '- Scraping + MongoDB + API + deployment\n' +
     '- Display products with image\n' +
@@ -17,7 +17,7 @@ console.log('What I managed to implement: \n' +
 
 console.log('What I did not managed to implement:\n' +
     '- Display indicators about dates, and implement filters about dates (because I did not found dates in the websites I scraped)\n' +
-    '- The filters does not reset when we refresh (ex : we show 48 products, then refresh, and the filter display is yet 48 even if the application shows 12 products')
+    '- The filters does not reset when we refresh in FireFox (ex : we show 48 products, then refresh, and the filter display is still 48 even if the application shows 12 products) but it works in Chrome')
 
 //Instantiate the local storage for favorites
 //localStorage.removeItem('favorite_list')
